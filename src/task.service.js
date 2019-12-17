@@ -1,11 +1,9 @@
 const sqlite3 = require('sqlite3').verbose();
 
 class TaskService {
-	constructor(db) {
-		this.db = db;
-	}
+	constructor() {}
 
-	getAllTasks() {
+	getAllTasks(db) {
 		return true;
 	}
 	getTaskById(id) {

@@ -2,18 +2,7 @@ const express = require('express');
 let router = express.Router();
 const dbConfiguration = require('./db-middleware');
 const TaskService = require('./task.service');
-
-// let tasks = [
-//   {
-//     id: 001,
-//     task: 'eat yogurt',
-//   },
-//   {
-//     id: 002,
-//     task: 'make a sandwich',
-//   },
-// ];
-
+// middleware dedicated to opening and closing db connections for Tasks
 router.use(dbConfiguration);
 
 router.get('/tasks', (req, res) => {
