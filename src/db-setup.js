@@ -6,6 +6,7 @@ module.exports = class DbSetup {
 		let db = new sqlite3.Database(':memory', err => {
 			if (err) return console.error(err.message);
 		});
+		db.exec(`Drop Table IF EXISTS Tasks`);
 		db.exec(
 			`CREATE TABLE IF NOT EXISTS Tasks (
     			id Integer PRIMARY KEY AUTOINCREMENT,
