@@ -8,7 +8,7 @@ const port = 3000;
 // specifying I am expecting the request body to be json format
 app.use(bodyParser.json());
 // open connection to db and create table and seed data
-DbSetup.prototype.setup();
+DbSetup();
 // use router dedicated to Tasks
 // the router has its own specific middleware
 app.use('/api/v1', taskRouter);

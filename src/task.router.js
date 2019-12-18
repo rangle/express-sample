@@ -1,12 +1,21 @@
 const express = require('express');
 let router = express.Router();
 const dbConfiguration = require('./db-middleware');
-const TaskService = require('./task.service');
+
 // middleware dedicated to opening and closing db connections for Tasks
 router.use(dbConfiguration);
 
 router.get('/tasks', (req, res) => {
-	res.send(TaskService.prototype.getAllTasks(res.locals.db));
+	let sql = `SELECT * FROM Tasks`;
+	let tasks = [];
+	res.locals.db.all(sql, [], (err, rows) => {
+		if (err) throw err;
+
+		rows.forEach(row => {
+			tasks.push(row);
+		});
+		res.send(tasks);
+	});
 });
 router
 	.route('/task/:id')
