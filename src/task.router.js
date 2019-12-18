@@ -9,7 +9,7 @@ router.get('/tasks', (req, res) => {
 	let sql = `SELECT * FROM Tasks`;
 	let tasks = [];
 	res.locals.db.all(sql, [], (err, rows) => {
-		if (err) throw err;
+		if (err) res.send(err);
 
 		rows.forEach(row => {
 			tasks.push(row);
@@ -20,22 +20,34 @@ router.get('/tasks', (req, res) => {
 router
 	.route('/task/:id')
 	.get((req, res) => {
-		const taskService = new TaskService();
-		res.send(taskService.getTaskById(+req.params.id));
+		let sql = `select * from tasks where id = ${+req.params.id}`;
+		res.locals.db.get(sql, [], (err, row) => {
+			if (err) res.send(err);
+			res.send(row);
+		});
 	})
 	.delete((req, res) => {
-		const taskService = new TaskService();
-		res.send(taskService.deleteTaskById(+req.body.id));
+		let sql = `delete from tasks where id = ${+req.params.id}`;
+		res.locals.db.run(sql, [], err => {
+			if (err) res.send(err);
+			res.send('deleted');
+		});
 	});
 router
 	.route('/task')
 	.put((req, res) => {
-		let index = tasks.findIndex(task => task.id === req.body.id);
-		if (index > -1) tasks.splice(index, 1, req.body);
-		res.send(tasks);
+		let sql = `update tasks set task = '${req.body.task}' where id = ${req.body.id}`;
+		res.locals.db.run(sql, [], err => {
+			if (err) console.error(err);
+			res.send('updated');
+		});
 	})
 	.post((req, res) => {
-		tasks.push(req.body);
-		res.send(tasks);
+		let sql = `INSERT INTO Tasks(Task)
+              VALUES('${req.body.task}')`;
+		res.locals.db.run(sql, [], err => {
+			if (err) res.send(err);
+			res.send('posted');
+		});
 	});
 module.exports = router;

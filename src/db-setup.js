@@ -2,9 +2,11 @@ const sqlite3 = require('sqlite3').verbose();
 
 module.exports = DbSetup = () => {
 	let db = new sqlite3.Database(':memory', err => {
-		if (err) return console.error(err.message);
+		if (err) console.error(err.message);
 	});
-	db.exec(`Drop Table IF EXISTS Tasks`);
+	db.exec(`Drop Table IF EXISTS Tasks`, err => {
+		if (err) console.error(err.message);
+	});
 	db.exec(
 		`CREATE TABLE IF NOT EXISTS Tasks (
     			id Integer PRIMARY KEY AUTOINCREMENT,
