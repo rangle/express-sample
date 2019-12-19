@@ -9,7 +9,7 @@ router.get('/tasks', (req, res) => {
 	let sql = `SELECT * FROM Tasks`;
 	let tasks = [];
 	res.locals.db.all(sql, [], (err, rows) => {
-		if (err) res.send(err);
+		if (err) throw new Error(err);
 
 		rows.forEach(row => {
 			tasks.push(row);
@@ -22,14 +22,14 @@ router
 	.get((req, res) => {
 		let sql = `select * from tasks where id = ${+req.params.id}`;
 		res.locals.db.get(sql, [], (err, row) => {
-			if (err) res.send(err);
+			if (err) throw new Error(err);
 			res.send(row);
 		});
 	})
 	.delete((req, res) => {
 		let sql = `delete from tasks where id = ${+req.params.id}`;
 		res.locals.db.run(sql, [], err => {
-			if (err) res.send(err);
+			if (err) throw new Error(err);
 			res.send('deleted');
 		});
 	});
@@ -38,7 +38,7 @@ router
 	.put((req, res) => {
 		let sql = `update tasks set task = '${req.body.task}' where id = ${req.body.id}`;
 		res.locals.db.run(sql, [], err => {
-			if (err) console.error(err);
+			if (err) throw new Error(err);
 			res.send('updated');
 		});
 	})
@@ -46,7 +46,7 @@ router
 		let sql = `INSERT INTO Tasks(Task)
               VALUES('${req.body.task}')`;
 		res.locals.db.run(sql, [], err => {
-			if (err) res.send(err);
+			if (err) throw new Error(err);
 			res.send('posted');
 		});
 	});

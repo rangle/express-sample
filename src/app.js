@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const taskRouter = require('./task.router');
 const DbSetup = require('./db-setup');
+const errorHandler = require('./error-handler');
 const app = express();
-const port = 3000;
 
 // specifying I am expecting the request body to be json format
 app.use(bodyParser.json());
@@ -12,13 +12,14 @@ DbSetup();
 // use router dedicated to Tasks
 // the router has its own specific middleware
 app.use('/api/v1', taskRouter);
+// handler to deal with errors that express catches
+app.use(errorHandler);
 // basic health check
-app.get('/healthcheck', (req, res) =>
+app.get('/healthCheck', (req, res) =>
 	res.send({
 		uptime: process.uptime(),
 		message: 'OK',
 		timestamp: Date.now(),
 	})
 );
-// start the server
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+module.exports = app;
