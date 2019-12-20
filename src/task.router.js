@@ -1,9 +1,9 @@
 const express = require('express');
 let router = express.Router();
-const dbConfiguration = require('./db-middleware');
+const dbOpenAndClose = require('./task.router.middleware');
 
 // middleware dedicated to opening and closing db connections for Tasks
-router.use(dbConfiguration);
+router.use(dbOpenAndClose);
 
 router.get('/tasks', (req, res) => {
 	let sql = `SELECT * FROM Tasks`;
@@ -30,7 +30,7 @@ router
 		let sql = `delete from tasks where id = ${+req.params.id}`;
 		res.locals.db.run(sql, [], err => {
 			if (err) throw new Error(err);
-			res.send('deleted');
+			res.send({ message: 'deleted' });
 		});
 	});
 router
@@ -39,7 +39,7 @@ router
 		let sql = `update tasks set task = '${req.body.task}' where id = ${req.body.id}`;
 		res.locals.db.run(sql, [], err => {
 			if (err) throw new Error(err);
-			res.send('updated');
+			res.send({ message: 'updated' });
 		});
 	})
 	.post((req, res) => {
@@ -47,7 +47,7 @@ router
               VALUES('${req.body.task}')`;
 		res.locals.db.run(sql, [], err => {
 			if (err) throw new Error(err);
-			res.send('posted');
+			res.send({ message: 'posted' });
 		});
 	});
 module.exports = router;

@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-module.exports = dbConfiguration = (req, res, next) => {
+module.exports = dbOpenAndClose = (req, res, next) => {
 	res.locals.db = new sqlite3.Database(':memory', err => {
 		if (err) next(err.message);
 	});
