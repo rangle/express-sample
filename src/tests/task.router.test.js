@@ -69,7 +69,7 @@ describe('GET /task/:id', () => {
 		expect(response.status).toEqual(200);
 	});
 
-	test('', async () => {
+	test('it should responde with a task of id: 1 and task : eat pie', async () => {
 		const response = await request(app).get('/task/1');
 		expect(response.body).toEqual({
 			id: 1,
@@ -81,7 +81,7 @@ describe('GET /task/:id', () => {
 describe('DELETE /task/:id', () => {
 	const app = setupTaskRouter();
 
-	test('', async () => {
+	test('it should respond with message confirming deleted', async () => {
 		const response = await request(app).delete('/task/1');
 		expect(response.body).toEqual({ message: 'deleted' });
 	});
@@ -94,7 +94,7 @@ describe('DELETE /task/:id', () => {
 describe('PUT /task', () => {
 	const app = setupTaskRouter();
 
-	test('', async () => {
+	test('it should respond with a message confirming updated', async () => {
 		const response = await request(app)
 			.put('/task')
 			.send({ id: 1, task: 'talks' });
@@ -111,7 +111,7 @@ describe('PUT /task', () => {
 describe('POST /task', () => {
 	const app = setupTaskRouter();
 
-	test('', async () => {
+	test('it should respond with a message confirming posted', async () => {
 		const response = await request(app)
 			.post('/task')
 			.send({ id: 1, task: 'talks' });
