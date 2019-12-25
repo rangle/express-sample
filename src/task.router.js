@@ -7,14 +7,11 @@ router.use(dbOpenAndClose);
 
 router.get('/tasks', (req, res) => {
 	let sql = `SELECT * FROM Tasks`;
-	let tasks = [];
+
 	res.locals.db.all(sql, [], (err, rows) => {
 		if (err) throw new Error(err);
 
-		rows.forEach(row => {
-			tasks.push(row);
-		});
-		res.send(tasks);
+		res.send(rows);
 	});
 });
 router
